@@ -1,4 +1,6 @@
+import os
 import cv2
+import shutil
 import threading
 import time, datetime
 from pathlib import Path
@@ -48,7 +50,7 @@ class Camera:
         return Img
 
 
-def GuardarImagen(im):
+def GuardarImagen(im, nomb):
     s = im.shape
     # Add a timestamp
     font = cv2.FONT_HERSHEY_SIMPLEX
@@ -59,8 +61,16 @@ def GuardarImagen(im):
 
     cv2.putText(im,datetime.datetime.now().isoformat().split(".")[0],bottomLeftCornerOfText,font,fontScale,fontColor, lineType)
 
+    Dirc = nomb + "/"
+    #cop= "/img/" + nomb
+    try:
+        os.mkdir("img/" + nomb)
+    except OSError:
+        print ("holi")
+
+
     m = 0
-    p = Path("img")
+    p = Path("img/" + nomb)
     for imp in p.iterdir():
         if imp.suffix == ".png" and imp.stem != "last":
             num = imp.stem.split("_")[1]
@@ -71,9 +81,50 @@ def GuardarImagen(im):
             except:
                 print("Error reading image number for",str(imp))
     m +=1
-    lp = Path("img/last.png")
-    if lp.exists() and lp.is_file():
-        np = Path("img/img_{}.png".format(m))
+    
+    #shutil.copy('/img/last.png', cop)  #Copiar y pegar ficheros
+    lp = Path("img/"+ Dirc + "last.png")
+    if lp.exists() or lp.is_file():
+        np = Path("img/"+ Dirc +"img_{}.png".format(m))
         np.write_bytes(lp.read_bytes())
-    cv2.imwrite("img/last.png",im)
-        
+    cv2.imwrite("img/"+ Dirc +"last.png", im)
+
+
+def GuardarImagen1(im, nomb):
+    s = im.shape
+    # Add a timestamp
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    bottomLeftCornerOfText = (10,s[0]-10)
+    fontScale = 1
+    fontColor = (20,20,20)
+    lineType = 2
+
+    cv2.putText(im,datetime.datetime.now().isoformat().split(".")[0],bottomLeftCornerOfText,font,fontScale,fontColor, lineType)
+
+    Dirc = nomb + "/"
+    #cop= "/img/" + nomb
+    try:
+        os.mkdir("img1/" + nomb)
+    except OSError:
+        print ("holi")
+
+
+    m = 0
+    p = Path("img1/" + nomb)
+    for imp in p.iterdir():
+        if imp.suffix == ".png" and imp.stem != "last":
+            num = imp.stem.split("_")[1]
+            try:
+                num = int(num)
+                if num>m:
+                    m = num
+            except:
+                print("Error reading image number for",str(imp))
+    m +=1
+    
+    #shutil.copy('/img/last.png', cop)  #Copiar y pegar ficheros
+    lp = Path("img1/"+ Dirc + "last.png")
+    if lp.exists() or lp.is_file():
+        np = Path("img1/"+ Dirc +"img_{}.png".format(m))
+        np.write_bytes(lp.read_bytes())
+    cv2.imwrite("img1/"+ Dirc +"last.png", im)
