@@ -10,7 +10,7 @@ from align_dlib import AlignDlib  # type: ignore
 
 logger = logging.getLogger(__name__)
 
-align_dlib = AlignDlib('../models/shape_predictor_68_face_landmarks.dat')
+align_dlib = AlignDlib('./models/shape_predictor_68_face_landmarks.dat')
 # os.path.join(os.path.dirname(__file__),
 
 

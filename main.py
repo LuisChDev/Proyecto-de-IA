@@ -1,6 +1,6 @@
 from flask import Flask, render_template, send_from_directory, Response, render_template, request
 from camera import Camera, GuardarImagen, GuardarImagen1
-#from Redneuronal import eval_face, add_face
+from Redneuronal import eval_face, add_face
 import argparse
 import forms
 
@@ -8,6 +8,8 @@ camera = Camera()
 camera.Run()
 
 app = Flask(__name__)
+
+a=0
 
 @app.after_request
 def add_header(r):
@@ -23,14 +25,15 @@ def stream_page():
 
 @app.route('/Aprendizaje.html', methods = ['GET', 'POST'])
 def Aprendizaje():
+    global a
     comment_form = forms.CommentForm1(request.form)
     if request.method =='POST':
         im = camera.get_frame(bytes=False)
         GuardarImagen(im, comment_form.Z.data)
         #Aca va la funcion
-        #RN=add_face("img/" + comment_form.Z.data)
-        #print(RN)
-        #eva_face
+        if a > 10:
+            add_face("img/" + comment_form.Z.data)
+        a += 1
     return render_template('Aprendizaje.html', form=comment_form)
 
 @app.route("/Identificador.html")
@@ -48,8 +51,7 @@ def gen(camera):
 def capture():
     im = camera.get_frame(bytes=False)
     GuardarImagen1(im,"qwerty")
-    #EF=eval_face("img1/qwerty")
-    #print(EF)
+    EF=eval_face("img1/qwerty")
     return render_template("send_to_init.html")
 
 @app.route("/Video")

@@ -2,7 +2,7 @@ import yaml
 import preprocess as pre  # type: ignore
 from train_classifier import main  # type: ignore
 
-with open("../config.yaml") as f:
+with open("./config.yaml") as f:
     conf = yaml.safe_load(f)
 
 

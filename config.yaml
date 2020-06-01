@@ -1,0 +1,9 @@
+model_path: "../models/20170511-185253.pb"
+batch_size: 128
+num_threads: 16
+num_epochs: 25
+min_num_images_per_class: 10
+embeddings_path: "../models/embeddings.npy"
+labels_path: "../models/labels.npy"
+classifier_output_path: "/models/model.pkl"
+split_ratio: 0.7

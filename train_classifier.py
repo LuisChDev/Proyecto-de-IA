@@ -18,7 +18,7 @@ import lfw_input
 
 logger = logging.getLogger(__name__)
 
-with open("../config.yaml") as f:
+with open("./config.yaml") as f:
     conf = yaml.safe_load(f)
 
 
